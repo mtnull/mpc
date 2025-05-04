@@ -52,7 +52,7 @@ export const maximum_affordable_payment = (
  * where
  * P is the maximum principal loan,
  * M is the monthly mortgage payment,
- * i is the annual interest rate (in decimal),
+ * i is the monthly interest rate (in decimal),
  * n is the loan term (in months)
  *
  * @param {number} monthly_payment - Monthly mortgage payment
@@ -97,7 +97,7 @@ export const maximum_loan_amount = (
  * where
  * P is the principal loan,
  * M is the monthly mortgage payment,
- * i is the annual interest rate (in decimal),
+ * i is the monthly interest rate (in decimal),
  * n is the loan term (in months)
  *
  * @param {number} principal_loan - Principal loan amount

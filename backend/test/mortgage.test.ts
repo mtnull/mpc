@@ -51,7 +51,6 @@ describe("Invalid cases for maximum_loan_amount", () => {
   });
 
   it("Negative interest", () => {
-
     expect(() => maximum_loan_amount(monthly_payment, -1, LOAN_TERM)).toThrow();
   });
 
