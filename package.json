@@ -1,0 +1,23 @@
+{
+  "name": "mpc",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/mtnull/mpc#readme",
+  "bugs": {
+    "url": "https://github.com/mtnull/mpc/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mtnull/mpc.git"
+  },
+  "license": "GPL-3.0-or-later",
+  "author": "Ryan Saab",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "typescript": "^5.8.3"
+  }
+}
