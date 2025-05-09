@@ -7,6 +7,7 @@
   "type": "commonjs",
   "main": "index.ts",
   "scripts": {
+    "start": "tsc -p tsconfig.json && node ./dist/index.js",
     "test": "vitest run --coverage"
   },
   "dependencies": {
