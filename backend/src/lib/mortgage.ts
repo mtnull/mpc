@@ -1,5 +1,5 @@
 import { number, z } from "zod";
-import { DEFAULT_DTI } from "./default_dti";
+import { CONFIG } from "./mortgage_config";
 
 // Rounds given number to 2 decimal places
 const round_money = (num: number): number => Number(num.toFixed(2));
@@ -18,7 +18,7 @@ const round_money = (num: number): number => Number(num.toFixed(2));
 export const maximum_affordable_payment = (
   gross_monthly_income: number,
   monthly_debt_payments: number,
-  dti = DEFAULT_DTI
+  dti = CONFIG.DEFAULT_DTI
 ) => {
   const VALID_INPUT = z.object({
     income: number().nonnegative(),
@@ -32,13 +32,13 @@ export const maximum_affordable_payment = (
     dti: dti
   });
   if (!validation_result.success) {
-    throw new Error("Invalid inputs given");
+    throw new Error("Invalid inputs given.");
   }
 
   // Edge case where debt obligation is less than or equal to debt
   const debt_obligation = gross_monthly_income * dti - monthly_debt_payments;
   if (debt_obligation <= 0) {
-    return 0;
+    throw new Error("Debt payments are too high relative to your income to qualify for a mortgage.");
   }
 
   return round_money(debt_obligation);
@@ -52,7 +52,7 @@ export const maximum_affordable_payment = (
  * where
  * P is the maximum principal loan,
  * M is the monthly mortgage payment,
- * i is the annual interest rate (in decimal),
+ * i is the monthly interest rate (in decimal),
  * n is the loan term (in months)
  *
  * @param {number} monthly_payment - Monthly mortgage payment
@@ -77,7 +77,7 @@ export const maximum_loan_amount = (
     term: loan_term
   });
   if (!validation_result.success) {
-    throw new Error("Invalid inputs given");
+    throw new Error("Invalid inputs given.");
   }
 
   const i = (interest_rate / 100) / 12;
@@ -97,7 +97,7 @@ export const maximum_loan_amount = (
  * where
  * P is the principal loan,
  * M is the monthly mortgage payment,
- * i is the annual interest rate (in decimal),
+ * i is the monthly interest rate (in decimal),
  * n is the loan term (in months)
  *
  * @param {number} principal_loan - Principal loan amount
@@ -122,7 +122,7 @@ export const monthly_mortgage_payment = (
     term: loan_term
   });
   if (!validation_result.success) {
-    throw new Error("Invalid inputs given");
+    throw new Error("Invalid inputs given.");
   }
 
   const i = (interest_rate / 100) / 12;
