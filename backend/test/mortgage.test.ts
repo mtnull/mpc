@@ -1,5 +1,5 @@
-import { describe, expect, it, test } from "vitest";
-import { maximum_affordable_payment, maximum_loan_amount, monthly_mortgage_payment } from "../lib/mortgage";
+import { describe, expect, it } from "vitest";
+import { maximum_affordable_payment, maximum_loan_amount, monthly_mortgage_payment } from "../src/lib/mortgage";
 
 // Constants
 const MONTHLY_INCOME = 10_000;
@@ -16,10 +16,6 @@ describe("Valid cases for maximum_affordable_payment", () => {
     const CUSTOM_DTI = 0.55;
     expect(maximum_affordable_payment(MONTHLY_INCOME, MONTHLY_DEBT, CUSTOM_DTI)).toBe(5_000);
   });
-
-  it("Edge case where debt obligation = 0", () => {
-    expect(maximum_affordable_payment(MONTHLY_INCOME, MONTHLY_INCOME)).toBe(0);
-  });
 });
 
 describe("Invalid cases for maximum_affordable_payment", () => {
@@ -33,6 +29,10 @@ describe("Invalid cases for maximum_affordable_payment", () => {
 
   it("DTI above 1", () => {
     expect(() => maximum_affordable_payment(MONTHLY_INCOME, MONTHLY_DEBT, 100)).toThrow();
+  });
+
+  it("Edge case where debt obligation = 0", () => {
+    expect(() => maximum_affordable_payment(MONTHLY_INCOME, MONTHLY_INCOME)).toThrow();
   });
 });
 
