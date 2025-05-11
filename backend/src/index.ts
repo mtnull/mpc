@@ -41,7 +41,6 @@ app.register(mercurius, {
   schema: SCHEMA,
   resolvers: resolvers,
   errorFormatter: custom_error,
-  graphiql: true
 });
 
 app.listen({ port: CONFIG.port }, (err, address) => {
