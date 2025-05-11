@@ -1,7 +1,7 @@
 import { IFieldResolver, MercuriusContext } from "mercurius";
 import { maximum_affordable_payment, maximum_loan_amount, monthly_mortgage_payment } from "../../lib/mortgage";
 
-// Types
+// Types.
 type CalculateInput = {
   monthly_income: number,
   monthly_debt: number,
