@@ -1,7 +1,7 @@
 import { number, z } from "zod";
 import { CONFIG } from "./mortgage_config";
 
-// Constants
+// Constants.
 const MAX_DP = 0.01;
 const MAX_DTI = 1;
 
@@ -11,7 +11,7 @@ const MAX_INTEREST = 100;
 const MAX_INCOME = 10_000_000;
 const MAX_DEBT = 10_000_000;
 
-// Rounds given number to 2 decimal places
+// Rounds given number to 2 decimal places.
 const round_money = (num: number): number => Number(num.toFixed(2));
 
 /**
