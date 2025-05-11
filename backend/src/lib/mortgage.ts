@@ -1,6 +1,16 @@
 import { number, z } from "zod";
 import { CONFIG } from "./mortgage_config";
 
+// Constants
+const MAX_DP = 0.01;
+const MAX_DTI = 1;
+
+const MAX_LOAN_TERM = 30;
+const MAX_INTEREST = 100;
+
+const MAX_INCOME = 10_000_000;
+const MAX_DEBT = 10_000_000;
+
 // Rounds given number to 2 decimal places
 const round_money = (num: number): number => Number(num.toFixed(2));
 
@@ -21,9 +31,9 @@ export const maximum_affordable_payment = (
   dti = CONFIG.DEFAULT_DTI
 ) => {
   const VALID_INPUT = z.object({
-    income: number().nonnegative(),
-    debt: number().nonnegative(),
-    dti: number().positive().max(1)
+    income: number().nonnegative().max(MAX_INCOME).multipleOf(MAX_DP),
+    debt: number().nonnegative().max(MAX_DEBT).multipleOf(MAX_DP),
+    dti: number().positive().max(MAX_DTI).multipleOf(MAX_DP)
   });
 
   const validation_result = VALID_INPUT.safeParse({
@@ -66,9 +76,9 @@ export const maximum_loan_amount = (
   loan_term: number
 ): number => {
   const VALID_INPUT = z.object({
-    payment: number().nonnegative(),
-    interest: number().positive(),
-    term: number().int().positive()
+    payment: number().nonnegative().multipleOf(MAX_DP),
+    interest: number().positive().max(MAX_INTEREST).multipleOf(MAX_DP),
+    term: number().int().positive().max(MAX_LOAN_TERM)
   });
 
   const validation_result = VALID_INPUT.safeParse({
@@ -111,9 +121,9 @@ export const monthly_mortgage_payment = (
   loan_term: number
 ): number => {
   const VALID_INPUT = z.object({
-    loan: number().nonnegative(),
-    interest: number().positive(),
-    term: number().int().positive()
+    loan: number().nonnegative().multipleOf(MAX_DP),
+    interest: number().positive().max(MAX_INTEREST).multipleOf(MAX_DP),
+    term: number().int().positive().max(MAX_LOAN_TERM)
   });
 
   const validation_result = VALID_INPUT.safeParse({

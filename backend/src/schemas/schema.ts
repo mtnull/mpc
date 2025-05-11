@@ -8,7 +8,8 @@ export const SCHEMA = `
       monthly_income: Float!,
       monthly_debt: Float!,
       interest: Float!,
-      loan_term: Int!
+      loan_term: Int!,
+      dti: Float
     ): PrequalificationResult!
   }
 
