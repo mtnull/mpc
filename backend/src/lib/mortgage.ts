@@ -1,5 +1,4 @@
 import { number, z } from "zod";
-import { CONFIG } from "./mortgage_config";
 
 // Constants.
 const MAX_DP = 0.01;
@@ -22,13 +21,13 @@ const round_money = (num: number): number => Number(num.toFixed(2));
  *
  * @param {number} gross_monthly_income
  * @param {number} monthly_debt_payments
- * @param {number} dti - Debt-to-income ratio, which is set to DEFAULT_DTI if not given
+ * @param {number} dti - Debt-to-income ratio
  * @returns {number} Maximum affordable mortgage payment per month rounded to 2 d.p.
  */
 export const maximum_affordable_payment = (
   gross_monthly_income: number,
   monthly_debt_payments: number,
-  dti = CONFIG.DEFAULT_DTI
+  dti: number
 ) => {
   const VALID_INPUT = z.object({
     income: number().nonnegative().max(MAX_INCOME).multipleOf(MAX_DP),
@@ -45,7 +44,7 @@ export const maximum_affordable_payment = (
     throw new Error("Invalid inputs given.");
   }
 
-  // Edge case where debt obligation is less than or equal to debt
+  // Edge case where debt obligation is less than or equal to debt.
   const debt_obligation = gross_monthly_income * dti - monthly_debt_payments;
   if (debt_obligation <= 0) {
     throw new Error("Debt payments are too high relative to your income to qualify for a mortgage.");
