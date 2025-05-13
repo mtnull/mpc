@@ -33,7 +33,7 @@ export const maximum_affordable_payment = (
   const VALID_INPUT = z.object({
     income: number().nonnegative().max(MAX_INCOME).multipleOf(MAX_DP),
     debt: number().nonnegative().max(MAX_DEBT).multipleOf(MAX_DP),
-    dti: number().positive().max(MAX_DTI).multipleOf(MAX_DP)
+    dti: number().nonnegative().max(MAX_DTI).multipleOf(MAX_DP)
   });
 
   const validation_result = VALID_INPUT.safeParse({
