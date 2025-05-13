@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/mtnull/mpc">
-    <img src="https://github.com/mtnull/mpc/blob/demo/frontend/public/logo.webp?raw=true alt="mpc logo" width="150" />
+    <img src="https://github.com/mtnull/mpc/blob/main/frontend/public/logo.webp?raw=true" alt="mpc logo" width="150" />
   </a>
 </p>
 
