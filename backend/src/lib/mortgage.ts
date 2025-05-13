@@ -5,6 +5,7 @@ const MAX_DP = 0.01;
 const MAX_DTI = 1;
 
 const MAX_LOAN_TERM = 30;
+const MIN_INTEREST = 0.01;
 const MAX_INTEREST = 100;
 
 const MAX_INCOME = 10_000_000;
@@ -76,7 +77,7 @@ export const maximum_loan_amount = (
 ): number => {
   const VALID_INPUT = z.object({
     payment: number().nonnegative().multipleOf(MAX_DP),
-    interest: number().positive().max(MAX_INTEREST).multipleOf(MAX_DP),
+    interest: number().min(MIN_INTEREST).max(MAX_INTEREST).multipleOf(MAX_DP),
     term: number().int().positive().max(MAX_LOAN_TERM)
   });
 
@@ -121,7 +122,7 @@ export const monthly_mortgage_payment = (
 ): number => {
   const VALID_INPUT = z.object({
     loan: number().nonnegative().multipleOf(MAX_DP),
-    interest: number().positive().max(MAX_INTEREST).multipleOf(MAX_DP),
+    interest: number().min(MIN_INTEREST).max(MAX_INTEREST).multipleOf(MAX_DP),
     term: number().int().positive().max(MAX_LOAN_TERM)
   });
 

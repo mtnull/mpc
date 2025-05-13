@@ -58,6 +58,10 @@ describe("Invalid cases for maximum_loan_amount", () => {
   it("Loan term as float", () => {
     expect(() => maximum_loan_amount(monthly_payment, INTEREST, 11.11)).toThrow();
   });
+
+  it("0% interest rate", () => {
+    expect(() => maximum_loan_amount(monthly_payment, 0, LOAN_TERM)).toThrow();
+  });
 });
 
 describe("Valid cases for monthly_mortgage_payment", () => {
@@ -86,5 +90,9 @@ describe("Invalid cases for monthly_mortgage_payment", () => {
 
   it("Loan term as float", () => {
     expect(() => monthly_mortgage_payment(PRINCIPAL_LOAN, INTEREST, 11.11)).toThrow();
+  });
+
+  it("0% interest rate", () => {
+    expect(() => monthly_mortgage_payment(PRINCIPAL_LOAN, 0, LOAN_TERM)).toThrow();
   });
 });
