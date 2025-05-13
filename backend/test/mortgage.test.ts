@@ -14,8 +14,8 @@ describe("Valid cases for maximum_affordable_payment", () => {
   });
 
   it("Custom DTI input", () => {
-    const CUSTOM_DTI = 0.55;
-    expect(maximum_affordable_payment(MONTHLY_INCOME, MONTHLY_DEBT, CUSTOM_DTI)).toBe(5_000);
+    const CUSTOM_DTI = 0.45;
+    expect(maximum_affordable_payment(MONTHLY_INCOME, MONTHLY_DEBT, CUSTOM_DTI)).toBe(4_000);
   });
 });
 

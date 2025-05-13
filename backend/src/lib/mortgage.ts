@@ -2,11 +2,13 @@ import { number, z } from "zod";
 
 // Constants.
 const MAX_DP = 0.01;
-const MAX_DTI = 1;
-
 const MAX_LOAN_TERM = 30;
+
+const MIN_DTI = 0.28
+const MAX_DTI = 0.45;
+
 const MIN_INTEREST = 0.01;
-const MAX_INTEREST = 100;
+const MAX_INTEREST = 20;
 
 const MAX_INCOME = 10_000_000;
 const MAX_DEBT = 10_000_000;
@@ -33,7 +35,7 @@ export const maximum_affordable_payment = (
   const VALID_INPUT = z.object({
     income: number().nonnegative().max(MAX_INCOME).multipleOf(MAX_DP),
     debt: number().nonnegative().max(MAX_DEBT).multipleOf(MAX_DP),
-    dti: number().nonnegative().max(MAX_DTI).multipleOf(MAX_DP)
+    dti: number().nonnegative().min(MIN_DTI).max(MAX_DTI).multipleOf(MAX_DP)
   });
 
   const validation_result = VALID_INPUT.safeParse({
