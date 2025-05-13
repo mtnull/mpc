@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import mercurius from "mercurius";
+import fastifyCors from "@fastify/cors";
 import { ExecutionResult, GraphQLError } from "graphql";
 import { CONFIG } from "./config/server";
 import { SCHEMA } from "./schemas/schema";
@@ -13,14 +14,14 @@ type CustomError = {
   }
 };
 
-// Creates string of error messages to send with the Internal Server Error status code. 
+// Creates string of error messages to send.
 const custom_error = (result: ExecutionResult): CustomError => {
   const messages = result.errors?.map((err: GraphQLError): { message: string } => (
     { message: err.message }
   )) ?? [{ message: "Unknown error" }];
 
   return {
-    statusCode: 500,
+    statusCode: 200,
     response: {
       errors: messages
     }
@@ -31,11 +32,15 @@ const app = Fastify({
   logger: true
 });
 
+app.register(fastifyCors, {
+  origin: "*",
+  methods: ["GET"]
+});
+
 app.register(mercurius, {
   schema: SCHEMA,
   resolvers: resolvers,
   errorFormatter: custom_error,
-  graphiql: true
 });
 
 app.listen({ port: CONFIG.port }, (err, address) => {

@@ -1,7 +1,19 @@
 import { number, z } from "zod";
-import { CONFIG } from "./mortgage_config";
 
-// Rounds given number to 2 decimal places
+// Constants.
+const MAX_DP = 0.01;
+const MAX_LOAN_TERM = 30;
+
+const MIN_DTI = 0.28
+const MAX_DTI = 0.45;
+
+const MIN_INTEREST = 0.01;
+const MAX_INTEREST = 20;
+
+const MAX_INCOME = 10_000_000;
+const MAX_DEBT = 10_000_000;
+
+// Rounds given number to 2 decimal places.
 const round_money = (num: number): number => Number(num.toFixed(2));
 
 /**
@@ -12,18 +24,18 @@ const round_money = (num: number): number => Number(num.toFixed(2));
  *
  * @param {number} gross_monthly_income
  * @param {number} monthly_debt_payments
- * @param {number} dti - Debt-to-income ratio, which is set to DEFAULT_DTI if not given
+ * @param {number} dti - Debt-to-income ratio
  * @returns {number} Maximum affordable mortgage payment per month rounded to 2 d.p.
  */
 export const maximum_affordable_payment = (
   gross_monthly_income: number,
   monthly_debt_payments: number,
-  dti = CONFIG.DEFAULT_DTI
+  dti: number
 ) => {
   const VALID_INPUT = z.object({
-    income: number().nonnegative(),
-    debt: number().nonnegative(),
-    dti: number().positive().max(1)
+    income: number().nonnegative().max(MAX_INCOME).multipleOf(MAX_DP),
+    debt: number().nonnegative().max(MAX_DEBT).multipleOf(MAX_DP),
+    dti: number().nonnegative().min(MIN_DTI).max(MAX_DTI).multipleOf(MAX_DP)
   });
 
   const validation_result = VALID_INPUT.safeParse({
@@ -35,7 +47,7 @@ export const maximum_affordable_payment = (
     throw new Error("Invalid inputs given.");
   }
 
-  // Edge case where debt obligation is less than or equal to debt
+  // Edge case where debt obligation is less than or equal to debt.
   const debt_obligation = gross_monthly_income * dti - monthly_debt_payments;
   if (debt_obligation <= 0) {
     throw new Error("Debt payments are too high relative to your income to qualify for a mortgage.");
@@ -66,9 +78,9 @@ export const maximum_loan_amount = (
   loan_term: number
 ): number => {
   const VALID_INPUT = z.object({
-    payment: number().nonnegative(),
-    interest: number().positive(),
-    term: number().int().positive()
+    payment: number().nonnegative().multipleOf(MAX_DP),
+    interest: number().min(MIN_INTEREST).max(MAX_INTEREST).multipleOf(MAX_DP),
+    term: number().int().positive().max(MAX_LOAN_TERM)
   });
 
   const validation_result = VALID_INPUT.safeParse({
@@ -111,9 +123,9 @@ export const monthly_mortgage_payment = (
   loan_term: number
 ): number => {
   const VALID_INPUT = z.object({
-    loan: number().nonnegative(),
-    interest: number().positive(),
-    term: number().int().positive()
+    loan: number().nonnegative().multipleOf(MAX_DP),
+    interest: number().min(MIN_INTEREST).max(MAX_INTEREST).multipleOf(MAX_DP),
+    term: number().int().positive().max(MAX_LOAN_TERM)
   });
 
   const validation_result = VALID_INPUT.safeParse({
