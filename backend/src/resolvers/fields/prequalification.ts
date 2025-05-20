@@ -24,7 +24,7 @@ export const calculate_prequalification: IFieldResolver<
   MercuriusContext,
   CalculateInput
 > = (_: {}, { monthly_income, monthly_debt, interest, loan_term, dti }: CalculateInput): CalculateOutput => {
-  const affordable_payment: number = maximum_affordable_payment(monthly_income, monthly_debt, dti)
+  const affordable_payment: number = maximum_affordable_payment(monthly_income, monthly_debt, dti);
   const maximum_loan: number = maximum_loan_amount(affordable_payment, interest, loan_term);
   const monthly_mortgage: number = monthly_mortgage_payment(maximum_loan, interest, loan_term);
 

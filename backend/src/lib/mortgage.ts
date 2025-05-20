@@ -4,7 +4,7 @@ import { number, z } from "zod";
 const MAX_DP = 0.01;
 const MAX_LOAN_TERM = 30;
 
-const MIN_DTI = 0.28
+const MIN_DTI = 0.28;
 const MAX_DTI = 0.45;
 
 const MIN_INTEREST = 0.01;
